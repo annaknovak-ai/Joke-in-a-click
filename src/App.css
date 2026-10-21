@@ -1,0 +1,308 @@
+:root {
+  --blush-pink: #f7aeb8;
+  --pale-pink: #fbd6dc;
+  --cream: #fff4ed;
+  --charcoal: #2e2424;
+  --cocoa: #8b5e4d;
+  /* Darker cocoa for small text on pink backgrounds (contrast >= 4.5:1) */
+  --cocoa-dark: #74493a;
+  --white: #ffffff;
+  --strong-pink: #e0507a;
+
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --shadow-soft: 0 6px 20px rgba(224, 80, 122, 0.12);
+
+  font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--charcoal);
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: #fdeef0;
+  overflow-x: hidden;
+}
+
+/* Single narrow column, centered on wider screens */
+.app {
+  max-width: 440px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #fdf0f2 0%, var(--cream) 100%);
+  overflow: hidden;
+}
+
+/* ---------- Header ---------- */
+
+.hero {
+  position: relative;
+  background: var(--blush-pink);
+  padding: calc(28px + env(safe-area-inset-top)) 20px 0;
+  text-align: center;
+}
+
+/* Soft curved edge between the pink header and the page */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -1px;
+  height: 46px;
+  background: #fdf0f2;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--charcoal);
+}
+
+.kitten {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 62%;
+  max-width: 260px;
+  height: auto;
+  aspect-ratio: 1;
+  margin: 10px auto 0;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: 50% 50% 22px 22px;
+}
+
+/* ---------- Decorations (non-interactive) ---------- */
+
+.deco {
+  position: absolute;
+  pointer-events: none;
+}
+
+.heart {
+  width: 26px;
+  height: 26px;
+  fill: #fde3e7;
+  opacity: 0.9;
+}
+
+.burst {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: var(--strong-pink);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.hero .h1 { top: 110px; right: 12%; transform: rotate(-12deg); }
+.hero .h2 { top: 170px; right: 6%; width: 18px; height: 18px; }
+.hero .h3 { top: 120px; left: 12%; width: 30px; height: 30px; transform: rotate(14deg); }
+.hero .h4 { top: 190px; left: 7%; width: 18px; height: 18px; }
+
+.burst-title-right { top: calc(30px + env(safe-area-inset-top)); right: 6%; }
+.burst-title-left { top: calc(30px + env(safe-area-inset-top)); left: 6%; }
+
+/* ---------- Main content ---------- */
+
+.content {
+  padding: 20px 20px calc(32px + env(safe-area-inset-bottom));
+}
+
+.question {
+  display: block;
+  margin: 0 0 14px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--charcoal);
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.topic-input {
+  width: 100%;
+  padding: 16px 18px 16px 52px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--charcoal);
+  text-align: right;
+  background: var(--white);
+  border: 1.5px solid var(--blush-pink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  outline: none;
+}
+
+.topic-input::placeholder {
+  color: #9a7b70;
+}
+
+.topic-input:focus-visible {
+  border-color: var(--strong-pink);
+  box-shadow: 0 0 0 3px rgba(224, 80, 122, 0.25);
+}
+
+.paw {
+  position: absolute;
+  top: 50%;
+  left: 18px;
+  width: 24px;
+  height: 24px;
+  transform: translateY(-50%);
+  fill: var(--blush-pink);
+  pointer-events: none;
+}
+
+.counter {
+  margin-top: 6px;
+  padding: 0 6px;
+  font-family: 'Assistant', 'Heebo', sans-serif;
+  font-size: 14px;
+  /* Counter sits at the visual left, as in the mockup */
+  text-align: left;
+  color: var(--cocoa-dark);
+}
+
+/* ---------- Primary button ---------- */
+
+.button-row {
+  position: relative;
+  margin-top: 14px;
+  padding: 0 14px;
+}
+
+.burst-btn-right,
+.burst-btn-left {
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  margin-top: -11px;
+}
+
+.burst-btn-right { right: -6px; }
+.burst-btn-left { left: -6px; }
+
+.primary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 60px;
+  padding: 14px 24px;
+  font: inherit;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  background: linear-gradient(180deg, #ea6a8f 0%, var(--strong-pink) 100%);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 10px 22px rgba(224, 80, 122, 0.3);
+  cursor: pointer;
+}
+
+.primary-button:focus-visible {
+  outline: 3px solid var(--charcoal);
+  outline-offset: 3px;
+}
+
+.primary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.sparkles {
+  width: 26px;
+  height: 26px;
+  fill: var(--white);
+}
+
+.dev-note {
+  margin: 8px 0 0;
+  font-size: 14px;
+  text-align: center;
+  color: var(--cocoa-dark);
+}
+
+/* ---------- Joke card ---------- */
+
+.joke-card {
+  position: relative;
+  margin-top: 22px;
+  padding: 32px 24px;
+  min-height: 220px;
+  background: linear-gradient(180deg, #fde4e8 0%, var(--pale-pink) 100%);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.joke-card .heart {
+  fill: #f5a3b1;
+  opacity: 0.55;
+}
+
+.card-h1 { top: 50%; right: 14px; width: 22px; height: 22px; transform: rotate(-14deg); }
+.card-h2 { top: 22px; left: 26px; width: 18px; height: 18px; transform: rotate(12deg); }
+.card-h3 { bottom: 34px; left: 16px; width: 20px; height: 20px; }
+
+.empty-state {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.empty-state p {
+  margin: 10px 0 0;
+  max-width: 220px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--cocoa-dark);
+}
+
+.smiley {
+  width: 132px;
+  height: 88px;
+  fill: none;
+  stroke: var(--strong-pink);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.smiley-eye {
+  fill: var(--strong-pink);
+  stroke: none;
+}
+
+.joke-text {
+  position: relative;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--charcoal);
+  text-align: start;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
