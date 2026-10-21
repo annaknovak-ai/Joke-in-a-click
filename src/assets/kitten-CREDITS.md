@@ -5,3 +5,7 @@
 - **Photographer:** ac dc (https://unsplash.com/@bulanc)
 - **License:** Unsplash License — free to use, commercial and non-commercial, no permission required (https://unsplash.com/license)
 - **Downloaded:** 2026-10-21
+
+## PWA icons
+
+- `public/icons/*.png` are cropped from the same photo by `scripts/generate-icons.mjs` (`npm run icons`), under the same Unsplash License.

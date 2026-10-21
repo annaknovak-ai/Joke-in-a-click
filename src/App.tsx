@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import kittenUrl from './assets/kitten.jpg';
 import { getDevPreviewText } from './devPreview';
-import { fetchJoke } from './jokeApi';
+import { fetchJoke, JokeError } from './jokeApi';
 
 const MAX_TOPIC_LENGTH = 100;
 
@@ -57,23 +57,34 @@ function Smiley() {
   );
 }
 
+type Status = 'idle' | 'loading' | 'success' | 'error' | 'offline';
+
+const GENERIC_ERROR = 'לא הצלחנו ליצור בדיחה כרגע. אפשר לנסות שוב.';
+
 export default function App() {
   const [topic, setTopic] = useState('');
   const [joke, setJoke] = useState<string | null>(getDevPreviewText);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<Status>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // Locks synchronously, so fast double taps before a re-render still send one request
+  const inFlight = useRef(false);
+  const isLoading = status === 'loading';
 
   async function handleGenerate() {
-    setIsLoading(true);
-    setError(null);
+    if (inFlight.current) return;
+    inFlight.current = true;
+    setStatus('loading');
+    setErrorMessage(null);
     try {
       // Each click is a new request; a new joke replaces the previous one (no history)
       setJoke(await fetchJoke(topic));
+      setStatus('success');
     } catch (e) {
-      // Previous joke and topic stay as they are
-      setError(e instanceof Error ? e.message : null);
+      // Previous joke and topic stay as they are; the card shows them again
+      setStatus(e instanceof JokeError && e.kind === 'offline' ? 'offline' : 'error');
+      setErrorMessage(e instanceof Error && e.message ? e.message : GENERIC_ERROR);
     } finally {
-      setIsLoading(false);
+      inFlight.current = false;
     }
   }
 
@@ -114,15 +125,21 @@ export default function App() {
 
         <div className="button-row">
           <Burst className="burst-btn-right" />
-          <button type="button" className="primary-button" disabled={isLoading} onClick={handleGenerate}>
+          <button
+            type="button"
+            className="primary-button"
+            disabled={isLoading}
+            aria-busy={isLoading}
+            onClick={handleGenerate}
+          >
             <span>צור בדיחה</span>
             <Sparkles />
           </button>
           <Burst className="burst-btn-left" />
         </div>
-        {error && (
+        {errorMessage && (
           <p className="error-message" role="alert">
-            {error}
+            {errorMessage}
           </p>
         )}
 
@@ -130,7 +147,12 @@ export default function App() {
           <Heart className="card-h1" />
           <Heart className="card-h2" />
           <Heart className="card-h3" />
-          {joke ? (
+          {isLoading ? (
+            <div className="loading-state">
+              <PawIcon />
+              <p>מכין לך בדיחה...</p>
+            </div>
+          ) : joke ? (
             <p className="joke-text" dir="auto">
               {joke}
             </p>

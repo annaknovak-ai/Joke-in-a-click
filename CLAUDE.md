@@ -58,4 +58,6 @@
 ## פקודות הרצה
 > Claude ממלא זאת ברגע שהאפליקציה יכולה לרוץ (בדרך כלל בסיום Milestone 1), ומעדכן אם משהו משתנה.
 - **הרצה (dev):** `npm run dev` (כתובת: http://localhost:5173). ליצירת בדיחות נדרש `OPENAI_API_KEY` בקובץ `.env`.
+- **הרצת ה-Build לבדיקת PWA / Offline:** `npm run preview:pwa` (כתובת: http://localhost:4173). ה-Service Worker פעיל רק כאן, לא ב-`npm run dev`.
+- **יצירה מחדש של אייקוני האפליקציה:** `npm run icons`
 - **בדיקות (test):** אין בדיקות אוטומטיות; בדיקת טיפוסים ו-Build: `npm run build`
