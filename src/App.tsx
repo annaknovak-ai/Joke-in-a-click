@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import kittenUrl from './assets/kitten.jpg';
 import { getDevPreviewText } from './devPreview';
+import { fetchJoke } from './jokeApi';
 
 const MAX_TOPIC_LENGTH = 100;
 
@@ -58,8 +59,23 @@ function Smiley() {
 
 export default function App() {
   const [topic, setTopic] = useState('');
-  // Joke generation is connected in Milestone 2; until then only dev preview text can appear
-  const [joke] = useState<string | null>(getDevPreviewText);
+  const [joke, setJoke] = useState<string | null>(getDevPreviewText);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleGenerate() {
+    setIsLoading(true);
+    setError(null);
+    try {
+      // Each click is a new request; a new joke replaces the previous one (no history)
+      setJoke(await fetchJoke(topic));
+    } catch (e) {
+      // Previous joke and topic stay as they are
+      setError(e instanceof Error ? e.message : null);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className="app">
@@ -98,13 +114,17 @@ export default function App() {
 
         <div className="button-row">
           <Burst className="burst-btn-right" />
-          <button type="button" className="primary-button" disabled>
+          <button type="button" className="primary-button" disabled={isLoading} onClick={handleGenerate}>
             <span>צור בדיחה</span>
             <Sparkles />
           </button>
           <Burst className="burst-btn-left" />
         </div>
-        {import.meta.env.DEV && <p className="dev-note">יצירת בדיחות תחובר בשלב הבא</p>}
+        {error && (
+          <p className="error-message" role="alert">
+            {error}
+          </p>
+        )}
 
         <section className="joke-card" aria-live="polite">
           <Heart className="card-h1" />

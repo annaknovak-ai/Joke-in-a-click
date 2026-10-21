@@ -39,7 +39,8 @@ body {
   min-height: 100dvh;
   margin: 0 auto;
   background: linear-gradient(180deg, #fdf0f2 0%, var(--cream) 100%);
-  overflow: hidden;
+  /* clip (not hidden): hidden makes a scroll container that focusing the input can shift sideways */
+  overflow: clip;
 }
 
 /* ---------- Header ---------- */
@@ -236,11 +237,11 @@ body {
   fill: var(--white);
 }
 
-.dev-note {
-  margin: 8px 0 0;
+.error-message {
+  margin: 10px 0 0;
   font-size: 14px;
   text-align: center;
-  color: var(--cocoa-dark);
+  color: #b0233f;
 }
 
 /* ---------- Joke card ---------- */
