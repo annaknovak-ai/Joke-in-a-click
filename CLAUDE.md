@@ -60,4 +60,5 @@
 - **הרצה (dev):** `npm run dev` (כתובת: http://localhost:5173). ליצירת בדיחות נדרש `OPENAI_API_KEY` בקובץ `.env`.
 - **הרצת ה-Build לבדיקת PWA / Offline:** `npm run preview:pwa` (כתובת: http://localhost:4173). ה-Service Worker פעיל רק כאן, לא ב-`npm run dev`.
 - **יצירה מחדש של אייקוני האפליקציה:** `npm run icons`
+- **Production:** https://joke-in-a-click-two.vercel.app/ — נפרס אוטומטית בכל Push ל-`main` (רק באישור). פרטים ב-`DEPLOYMENT.md`.
 - **בדיקות (test):** אין בדיקות אוטומטיות; בדיקת טיפוסים ו-Build: `npm run build`
