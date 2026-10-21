@@ -267,3 +267,8 @@ Vercel (אותו Origin)
 **הקשר:** ה-Service Worker פועל רק על ה-Build, ולכן PWA, Offline ושגיאות צריכים להיבדק דרך `vite preview` — שבו ה-Middleware של ADR-1 לא היה פעיל.
 **החלטה:** ה-Plugin המקומי מחבר את `/api/joke` גם לשרת ה-Preview. מכיוון ששרת ה-Preview אינו טוען TypeScript, נוצר בו פעם אחת שרת Vite פנימי במצב Middleware שטוען את אותו `api/joke.ts`. הפקודה: `npm run preview:pwa`.
 **השלכות:** ניתן לבדוק מקומית את הגרסה שתעלה לאוויר, כולל יצירת בדיחה, בלי חשבון Vercel. עדיין ייתכנו הבדלים קטנים מול Vercel, שייבדקו באבן דרך 4.
+
+### ADR-8: הגדרות פריסה וכותרות אבטחה ב-`vercel.json`
+**הקשר:** סעיף 2.8 דורש כותרות אבטחה ו-CSP שאינה מונעת Service Worker; סעיף 2.5 דורש מגבלת ביצוע ב-Vercel גבוהה מה-Timeout של OpenAI; ADR-6 מסתמך על כך שהדפדפן יגלה גרסה חדשה של `sw.js`.
+**החלטה:** קובץ `vercel.json` בשורש קובע Preset של Vite, `npm run build` ו-`dist`; `maxDuration: 60` ל-`api/joke.ts`; כותרות `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` ו-CSP הדוקה (`'self'` בלבד, ללא `'unsafe-inline'`, עם `worker-src 'self'`); `Cache-Control: no-cache` ל-`sw.js` ו-Cache ארוך לקובצי `/assets/` שבשמם Hash. גרסת Node.js נקבעת ב-`package.json` (`engines.node: 24.x`).
+**השלכות:** ה-Build הנוכחי אינו כולל סקריפטים או סגנונות inline, ולכן ה-CSP אינה חוסמת דבר; הוספת כאלה בעתיד תחייב עדכון ה-CSP. הכותרות פעילות רק ב-Vercel, לא בהרצה המקומית.
